@@ -1,6 +1,5 @@
 from openai import OpenAI
-from prompt_generation import get_domains_prompt
-
+from wrapt_timeout_decorator import timeout
 
 class System_llm:
     def __init__(self):
@@ -17,12 +16,16 @@ class System_llm:
         user_message = {"role": "user", "content": user_input} 
         self.messages.append(system_message)
         self.messages.append(user_message)
-    # tem = 0.3, max_tokens = 200 --low: 0.1 0.3  mid: 0.5 high: 0.7 0.9 1 ---- 1.6
+
+
     
-    def ask(self):
+    
+    @timeout(400)
+    def get_response(self):
+        
         max_tokens = 1000
-        try:
-            response = self.client.chat.completions.create(
+        
+        response = self.client.chat.completions.create(
                 messages = self.messages,
                 model = self.engine,
                 temperature = 0.0,
@@ -34,18 +37,32 @@ class System_llm:
                 presence_penalty = 0.0,
                 logit_bias = {}
             ).model_dump()
-            
-            # print(response)    
-            return response['choices'][0]['message']['content']
-        except Exception as e:
-            print(f"An error occurred: {e}")
-            return None
+        
+        return response
+    
+    def ask(self):
+        max_attempts = 3
+        for attempt in range(max_attempts):
+            try:
+                response = self.get_response()
+                # print(response)    
+                return response['choices'][0]['message']['content']
+            except (TimeoutError, OpenAI.error.Timeout, Exception) as error:
+                print(f'Attempt {attempt+1} of {max_attempts} failed with error: {error}')
+                if attempt == max_attempts - 1:
+                    return "ERROR."
+
 
 
 # task = "An unprecedented flood disaster occurred suddenly in Zhengzhou in July 2021, with the maximum hourly rainfall reaching 201.9 millimeters. An emergency response procedure needs to be developed for this disaster."
 # response1, response2 = get_domains_prompt(task)
+# expert = f"You're a expert in the field of Fire Department.Starting from your area of expertise, you need to carefully analyze your department's emergency management process involved in unexpected situations and carefully describe it"
+# analysis_prompt = f"Please meticulously examine the emergency scenario outlined in this task: An unprecedented flood disaster occurred suddenly in Zhengzhou in July 2021, with the maximum hourly rainfall reaching 201.9 millimeters. An emergency management procedure needs to be developed for this disaster..\n"\
+# f"Using your expertise, describe the emergency procedures that would be implemented in the current emergency situation.\n"\
+# f"Also, please provide detailed process steps to ensure an effective response in an emergency\n" \
+# f"Once again, it is emphasized that the emergency procedures suggested are exclusive to your emergency department: Fire Department.\n"
 # llm = System_llm()
-# llm.setPrompt(response1, response2)
+# llm.setPrompt(expert, analysis_prompt)
 # output = llm.ask()
-
+# print(output)
 
