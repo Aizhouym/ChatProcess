@@ -18,12 +18,10 @@ class System_llm:
         self.messages.append(user_message)
 
 
-    
-    
     @timeout(400)
     def get_response(self):
         
-        max_tokens = 1000
+        max_tokens = 2500
         
         response = self.client.chat.completions.create(
                 messages = self.messages,
@@ -47,7 +45,7 @@ class System_llm:
                 response = self.get_response()
                 # print(response)    
                 return response['choices'][0]['message']['content']
-            except (TimeoutError, OpenAI.error.Timeout, Exception) as error:
+            except (TimeoutError, Exception) as error:
                 print(f'Attempt {attempt+1} of {max_attempts} failed with error: {error}')
                 if attempt == max_attempts - 1:
                     return "ERROR."

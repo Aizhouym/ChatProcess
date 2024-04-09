@@ -1,7 +1,7 @@
 
 #get different emergency domains
 def get_domains_prompt(task):
-    domains_format = "Emergency Departments < " + "Field1: | Field2: | Field3:  >"
+    domains_format = "Emergency_Departments < " + "Field1 | Field2 | Field3  >"
     domains_classfier = "You are an Emergency Management Coordinator who specializes in coordinating and managing responses to various types of emergencies. Your role involves analyzing the given task to identify the specific departments responsible for different aspects of the emergency response to the task situation.\n"
     prompt_get_domains = f"You need to complete the following steps: \n" \
         f"1. Carefully read the disaster scenario presented in the task: '''{task}'''. \n" \

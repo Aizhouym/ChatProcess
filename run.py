@@ -16,6 +16,7 @@ if __name__ == "__main__":
     
     #Acquire domain specify
     task = args.task
+    task = "there is a wild fire in the forest"
     print("task:" + task  ,end='\n')
     
     domain_classfer, domain_prompt = get_domains_prompt(task)
@@ -44,7 +45,7 @@ if __name__ == "__main__":
         rowAnalysis = llm.ask()
         
         print()    
-        print("Answer from "+ expert_role + rowAnalysis)
+        print("Answer from "+ expert_role + "\t" + "LLM response:" + rowAnalysis)
         print()
         
         experts_analysis[expert_role] = rowAnalysis
