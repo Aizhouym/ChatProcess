@@ -1,13 +1,19 @@
 
 #get different emergency domains
 def get_domains_prompt(task):
-    domains_format = "Emergency_Departments < " + "Field1 | Field2 | Field3  >"
-    domains_classfier = "You are an Emergency Management Coordinator who specializes in coordinating and managing responses to various types of emergencies. Your role involves analyzing the given task to identify the specific departments responsible for different aspects of the emergency response to the task situation.\n"
+    domains_example = "Emergency_Departments < " + "Police department | Fire department  | Civil Aviation Administration  >"
+    
+    
+    domains_classfier = f"You are an Emergency Management Coordinator who specializes in coordinating and managing responses to various types of emergencies. "  \
+                f"Your role involves analyzing the given task to identify the specific departments responsible for different aspects of the emergency response to the task situation.\n"
+   
+   
     prompt_get_domains = f"You need to complete the following steps: \n" \
         f"1. Carefully read the disaster scenario presented in the task: '''{task}'''. \n" \
         f"2. Based on the disaster scenario in it, identify the different emergency departments involved in the task. \n" \
         f"3. You only need to answer the name of the emergency department required and no explanation is required. \n"   \
-        f"4. You should output in exactly the same format as '''{domains_format}'''.\n"
+        f"4. Please ensure your output exactly matches the given example as '''{domains_example}'''.\n"
+    
     return domains_classfier, prompt_get_domains
 
 
@@ -25,6 +31,30 @@ def get_domains_process_analysis(domain, task):
                 f""
     return  experts, prompt_get_analysis
 
+
+#get different domains activities
+def get_domain_activities(domain, task):    
+    activity_example = f'''{{
+    "department": "{domain}",
+    "activities": [
+        ("dispatch", "fire trucks to the location"),
+            
+        ("evacuate", "affected areas")
+    ]
+    }}'''
+
+    
+    experts = f"You're a domain expert in {domain}. You possess extensive knowledge and expertise in {domain}." \
+            f"Your role is to analyze the current task and provide the activities involved based on your existing domain knowledge. Please emphasize that your analysis is rooted in your expertise in {domain} and provide activities relevant to the task at hand.\n"
+
+
+    prompt_get_domain_activities = f"You need to complete the following steps: \n" \
+        f"1. Carefully read the disaster scenario presented in the task: '''{task}'''. \n " \
+        f"2. You're an expert in '''{domain}''', using your professional knowledge to analyze the situation in the above task. You need to identify the process activities that need to be taken. \n" \
+        f"3. Please note that your output activities should strictly belong to '''{domain}''' and should not involve other departments. The format for outputting process activities should be '''(action, object)'''. \n" \
+        f"4. Please ensure your output exactly matches the given example as: ."
+
+    return experts,prompt_get_domain_activities
 
 
 '''

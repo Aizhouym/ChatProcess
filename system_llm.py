@@ -52,6 +52,7 @@ class System_llm:
 
 
 
+
 # task = "An unprecedented flood disaster occurred suddenly in Zhengzhou in July 2021, with the maximum hourly rainfall reaching 201.9 millimeters. An emergency response procedure needs to be developed for this disaster."
 # response1, response2 = get_domains_prompt(task)
 # expert = f"You're a expert in the field of Fire Department.Starting from your area of expertise, you need to carefully analyze your department's emergency management process involved in unexpected situations and carefully describe it"

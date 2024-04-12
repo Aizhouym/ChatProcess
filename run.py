@@ -17,18 +17,20 @@ if __name__ == "__main__":
     #Acquire domain specify
     task = args.task
     task = "there is a wild fire in the forest"
-    print("task:" + task  ,end='\n')
+    print("task: \n\t" + task  ,end='\n')
+    print()
     
     domain_classfer, domain_prompt = get_domains_prompt(task)
     llm.setPrompt(domain_classfer, domain_prompt)
-    rowDomains = llm.ask()
-    print("DomainAnswer:" + rowDomains, end='\n')
+    row_domain = llm.ask()
+    print("domain_answer:\n\t" + row_domain, end='\n')
+    print()
     
-    specific_domains = get_specific_domains(rowDomains)
-    print("DomainList:" + ','.join(specific_domains), end="\n")
+    specific_domains = get_specific_domains(row_domain)
+    print("specific_domains:\n\t" + ','.join(specific_domains), end="\n")
+    print()
     
-    experts_analysis = {}
-    
+    # experts_analysis = {}
     # test the expert and analysis prompt
     # for i in range(len(specific_domains)):
     #     expert = specific_domains[i]
@@ -38,19 +40,16 @@ if __name__ == "__main__":
     #     break
     
     
-    for i in range(len(specific_domains)):
-        expert_role = specific_domains[i]
-        expert_prompt, analysis_prompt = get_domains_process_analysis(expert_role, task)
-        llm.setPrompt(expert_role, analysis_prompt)
-        rowAnalysis = llm.ask()
+    # for i in range(len(specific_domains)):
+    #     expert_role = specific_domains[i]
+    #     expert_prompt, analysis_prompt = get_domains_process_analysis(expert_role, task)
+    #     llm.setPrompt(expert_role, analysis_prompt)
+    #     row_analysis = llm.ask()
         
-        print()    
-        print("Answer from "+ expert_role + "\t" + "LLM response:" + rowAnalysis)
-        print()
-        
-        experts_analysis[expert_role] = rowAnalysis
-        
-        
+    #     print()    
+    #     print("Answer from "+ expert_role + "\t" + "LLM response:" + row_analysis)
+    #     print()
+    #     experts_analysis[expert_role] = row_analysis
     # print(experts_analysis)
     
     
