@@ -27,5 +27,13 @@ def extract_departments_from_json(json_data):
     return departments
     
 #extract the activities from llm response
-def extract_activities_from_json(json_data):
-    pass
+def extract_activities(data):
+    activities = []
+    for domain_mess in data:
+        department = domain_mess['department']
+        activities_list = domain_mess['activities']
+        for activity in activities_list:
+            activities.append(activity)
+            
+    return activities
+
