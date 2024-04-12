@@ -16,7 +16,7 @@ if __name__ == "__main__":
     
     #Acquire domain specify
     task = args.task
-    task = "there is a wild fire in the forest"
+    # task = "there is a wild fire in the forest"
     print("task: \n\t" + task  ,end='\n')
     print()
     
@@ -26,30 +26,31 @@ if __name__ == "__main__":
     print("domain_answer:\n\t" + row_domain, end='\n')
     print()
     
-    specific_domains = get_specific_domains(row_domain)
+    specific_domains = extract_departments_from_json(row_domain)
     print("specific_domains:\n\t" + ','.join(specific_domains), end="\n")
     print()
     
-    # experts_analysis = {}
-    # test the expert and analysis prompt
-    # for i in range(len(specific_domains)):
-    #     expert = specific_domains[i]
-    #     expert_prompt, analysis_prompt = get_domains_process_analysis(expert, task)
-    #     print("expert_promt: " + expert_prompt, end="\n")
-    #     print("analysis_prompt:" + analysis_prompt, end = '\t')
-    #     break
+    department_activities = {}
     
-    
-    # for i in range(len(specific_domains)):
-    #     expert_role = specific_domains[i]
-    #     expert_prompt, analysis_prompt = get_domains_process_analysis(expert_role, task)
-    #     llm.setPrompt(expert_role, analysis_prompt)
-    #     row_analysis = llm.ask()
-        
-    #     print()    
-    #     print("Answer from "+ expert_role + "\t" + "LLM response:" + row_analysis)
-    #     print()
+    for i in range(len(specific_domains)):
+        expert_role = specific_domains[i]
+        expert_prompt, analysis_prompt = get_domain_activities(expert_role, task)
+        llm.setPrompt(expert_role, analysis_prompt)
+        row_activities = llm.ask() 
+        print("row_activities:\n\t"+ row_activities)
+        print()
+        break
     #     experts_analysis[expert_role] = row_analysis
     # print(experts_analysis)
     
+    
+        # test the expert and analysis prompt
+    # for i in range(len(specific_domains)):
+    #     expert = specific_domains[i]
+    #     expert_prompt, analysis_prompt = get_domain_activities(expert, task)
+    #     print("expert_promt:\n\t" + expert_prompt)
+    #     print()
+    #     print("analysis_prompt:\n\t" + analysis_prompt, end = '\t')
+    #     print()
+    #     break
     

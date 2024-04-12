@@ -1,8 +1,8 @@
 import re
+import json
 
 
-
-def get_specific_domains(response):
+def extract_department_from_text(response):
     # 使用正则表达式匹配字段
     # fields = re.findall(r'([a-zA-Z]+\s[a-zA-Z]+)', response)
     
@@ -17,5 +17,15 @@ def get_specific_domains(response):
     
     return departments
 
-# test for the extraction from DoaminAnswer
-# print(get_specific_domains("DomainAnswer:Emergency Departments < Fire Department | Forestry Department | Emergency Medical Services >"))
+#extract the department from llm response
+def extract_departments_from_json(json_data):
+    departments = []
+    data = json.loads(json_data)
+    for key, value in data.items():
+        if "department" in key:
+            departments.append(value)
+    return departments
+    
+#extract the activities from llm response
+def extract_activities_from_json(json_data):
+    pass
