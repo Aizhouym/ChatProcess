@@ -31,16 +31,18 @@ if __name__ == "__main__":
     print("specific_domains:\n\t" + ',\t'.join(specific_domains), end="\n")
     print()
     
-    #get different domains activities
+    #get different domains activities and extract activities
     department_activities = []
+    activities_list = []
     
     for i in range(len(specific_domains)):
         expert_role = specific_domains[i]
         expert_prompt, analysis_prompt = get_domain_activities(expert_role, task)
         llm.setPrompt(expert_role, analysis_prompt)
-        row_activities = llm.ask() 
+        row_activities = llm.ask()
         # print("row_activities:\n\t"+ row_activities)
         # print()
+        extract_activities(row_activities, activities_list)
         department_activities.append(row_activities)
 
     print("department_activities:\n" + ",\n".join(department_activities))
@@ -55,9 +57,18 @@ if __name__ == "__main__":
     #     print()
     #     break
     
+    #get the prcoess example
+    file_path = "process_example.json"
+    example = extract_process_example(file_path)
+    
     #get the row emergency process made by decision maker
-    activities_list = extract_activities(department_activities)
-    decision_maker, emergency_process_prompt = get_row_emergency_process(activities_list)
+    print("activities: \n"+ ",\t".join(activities_list))
+    
+    decision_maker, emergency_process_prompt = get_row_emergency_process(example, activities_list)
+    llm.setPrompt(decision_maker, emergency_process_prompt)
+    
+    
+
     
     
     
