@@ -101,12 +101,24 @@ def get_department_votes(row_process, domain, domain_activities):
         f"Next, you will judge the above process through the following two aspects: \n" \
         f"1. Does process include all the activities you mentioned before? \n" \
         f"2. Is the order of occurrence of activities in the process consistent with the actual situation? \n" \
-        f"Please respond only with: [YES or NO]."
+        f"If the above two requirements are met, answer '''YES''', otherwise answer '''NO'''. Please respond only with: [YES or NO]."
         
         
     return voter, prompt_get_votes
 
 
+#get expert advice through judgement
+def get_expert_advice(row_process, domain):
+    expert = f"You're " \
+        f"Your role is "\
+    
+    
+    expert_advice_prompt = f""
+
+
+    return expert, expert_advice_prompt
+    
+    
 #
 def get_revision_prompt():
     pass
