@@ -61,7 +61,7 @@ def get_domain_activities(domain, task):
 
     prompt_get_domain_activities = f"Please read the requirements one by on: \n" \
         f"1. Carefully read and understand the disaster scenario presented in the task: '''{task}'''. \n" \
-        f"2. You're an expert in '''{domain}''', using your professional knowledge to analyze the situation in the above task. You need to identify the process activities that need to be taken (the number of activities is between '''1''' and '''3''' ! ). \n" \
+        f"2. You're an expert in '''{domain}''', using your professional knowledge to analyze the situation in the above task. You need to identify the process activities that need to be taken (the number of activities is between '''1''' and '''2''' ! ). \n" \
         f"3. Please note that your output activities should strictly belong to '''{domain}''' and should not involve other departments. The format for outputting process activities should be '''(Specific action, objects involved in the action)''' like (fill in, form name and address). \n" \
         f"4. Please ensure your output exactly matches the given example format: {activity_example} \n" \
         f"Think step by step to complete the above requirements. \n"
@@ -71,17 +71,19 @@ def get_domain_activities(domain, task):
 
 
 #get row emergency process
-def get_row_emergency_process(task):
-    process_format = f""
+def get_row_emergency_process(activities):
+    process_format = f'''
     
+    '''
     
-    decission_maker = f""    
+    decission_maker = f"You're a " \
+        f"Your role is to "    
     
     
     prompt_get_row_emergency_process = f""
     
     
-    return
+    return decission_maker, prompt_get_row_emergency_process
 
  
 '''

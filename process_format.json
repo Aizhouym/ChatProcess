@@ -1,0 +1,105 @@
+{
+    "Order Processing": {
+        "activities": [
+        {
+            "name": "Start",
+            "incoming":[],
+            "outgoing":[
+                "Process Order"
+            ]
+        },
+        {
+            "name": "Process Order",
+            "incoming":[
+                "Start"
+            ],
+            "outgoing":[
+                "exclusiveGateway_1"
+            ]
+        },
+        {
+            "name": "exclusiveGateway_1",
+            "incoming":[
+                "Process Order"
+            ],
+            "outgoing": [
+                "Regular Approval",
+                "Advanced Approval"
+            ]
+        },
+        {
+            "name": "Regular Approval",
+            "incoming":[
+                "exclusiveGateway_1"
+            ],
+            "outgoing":[
+                "exclusiveGateway_2"
+            ]
+        },
+        {
+            "name": "Advanced Approval",
+            "incoming":[
+                "exclusiveGateway_1"
+            ],
+            "outgoing":[
+                "exclusiveGateway_2"
+            ]
+        },
+        {
+            "name": "exclusiveGateway_2",
+            "incoming":[
+                "Regular Approval",
+                "Advanced Approval"
+            ],
+            "outgoing":[
+                "parallelGateway_1"
+            ]
+        },
+        {
+            "name": "parallelGateway_1",
+            "incoming":[
+                "exclusiveGateway_2"
+            ],
+            "outgoing":[
+                "Process Payment",
+                "Process Delivery"
+            ]
+        },
+        {
+            "name": "Process Payment",
+            "incoming":[
+                "parallelGateway_1"
+            ],
+            "outgoing":[
+                "parallelGateway_2"
+            ]
+        },
+        {
+            "name": "Process Delivery",
+            "incoming":[
+                "parallelGateway_1"
+            ],
+            "outgoing":[
+                "parallelGateway_2"
+            ]
+        },
+        {
+            "name": "parallelGateway_2",
+            "incoming":[
+                "Process Payment",
+                "Process Delivery"
+            ],
+            "outgoing":[
+                "endEvent"
+            ]
+        },
+        {
+            "name": "endEvent",
+            "incoming":[
+                "parallelGateway_2"
+            ],
+            "outgoing":[]
+        }
+        ]
+    }
+}

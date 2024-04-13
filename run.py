@@ -56,5 +56,9 @@ if __name__ == "__main__":
     #     break
     
     #get the row emergency process made by decision maker
+    activities_list = extract_activities(department_activities)
+    decision_maker, emergency_process_prompt = get_row_emergency_process(activities_list)
+    
+    
     
     
