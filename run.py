@@ -88,6 +88,8 @@ if __name__ == "__main__":
     turn_num = 0
     
     while turn_num < max_turn and revision_flag:
+        domain_opinions = {}
+        revision_advice = {}
         turn_num +=1
         revision_flag = False
         
@@ -97,9 +99,29 @@ if __name__ == "__main__":
             voter, vote_prompt = get_department_votes(row_process, domain, activities)
             llm.setPrompt(voter, vote_prompt)
             
-            vote_result = llm.ask()
+            row_vote = llm.ask()
+            vote_result = get_lower_vote_answer(row_vote)
+            domain_opinions[domain] = vote_result
             
+            if vote_result == "no":
+                revision_flag = True
+                expert, advice_prompt = get_expert_advice(row_process, domain)
 
+                llm.setPrompt(expert, advice_prompt)
+                advice = llm.ask()
+                domain_opinions[domain] = advice
+            
+            if revision_flag:
+                pass
+                
+                                
+        vote_history.append(domain_opinions) 
+        
+    print("vote_history: \n")
+    print(vote_history)   
+
+    
+    
     
     
     

@@ -11,6 +11,7 @@ def extract_department_from_text(response):
     
     return departments
 
+
 #extract the department from llm response
 def extract_departments_from_json(data):
     departments = []
@@ -21,6 +22,7 @@ def extract_departments_from_json(data):
             departments.append(value)
              
     return departments
+    
     
 #extract the activities from llm response
 def extract_activities(data, activities):
@@ -37,6 +39,7 @@ def extract_activities(data, activities):
     # print(activities)
     
     return None
+
 
 #extract Order Process example from json
 def extract_process_example(file_path):
@@ -58,8 +61,20 @@ def set_department_activities_map(data, data_dict):
         new_activities.append(activities[i])
     
     # print(new_activities)
-    
     data_dict[department] = new_activities
     
     return None
+
+
+#get the lower vote answer from llm
+def get_lower_vote_answer(response):
+    response = response.lower()
+    vote = re.findall(r'yes|no', response)
+    
+    if len(vote) == 0:
+        vote = "yes"
+    else:
+        vote = vote[0]
+        
+    return vote
 
