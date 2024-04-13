@@ -59,7 +59,7 @@ def get_domain_activities(domain, task):
             f"Your role is to analyze the current task and provide the activities involved based on your existing domain knowledge. Please emphasize that your analysis is rooted in your expertise in {domain} and provide activities relevant to the task at hand.\n"
 
 
-    prompt_get_domain_activities = f"Please read the requirements one by on: \n" \
+    prompt_get_domain_activities = f"Please read the requirements one by one: \n" \
         f"1. Carefully read and understand the disaster scenario presented in the task: '''{task}'''. \n" \
         f"2. You're an expert in '''{domain}''', using your professional knowledge to analyze the situation in the above task. You need to identify the process activities that need to be taken. \n" \
         f"3. The number of activities is between '''1''' and '''2''' ! ). \n" \
@@ -75,14 +75,21 @@ def get_domain_activities(domain, task):
 def get_row_emergency_process(example, activities):
     process_example  = example
     
-    decission_maker = f"You're a " \
-        f"Your role is to "    
+    
+    decission_maker = f" You're a specialized process management expert with in-depth knowledge of BPMN (Business Process Model and Notation), including the characteristics of exclusive gateways and parallel gateways." \
+        f" Your role is to generate activity processes based on your professional expertise in process management. \n" 
     
     
-    prompt_get_row_emergency_process = f""
-    
-    
+    prompt_get_row_emergency_process = f"Please read the requirements one by one: \n" \
+        f"1. Carefully read the activities listed by the experts {activities}. \n" \
+        f"2. Analyze the relationship between the above activities. Note that there should be three relationships between activities: sequential, exclusive, and concurrent. Exclusiveness and concurrency require gateway processing. \n" \
+        f"3. Then, you need to design a process based on your expertise that encompasses all of the above activities. \n" \
+        f"4. Here is an order process case '''{process_example}'''. Please learn the format, and generate the same format. \n" \
+        f"Think step by step to complete the above requirements. \n"
+        
+        
     return decission_maker, prompt_get_row_emergency_process
+
 
  
 '''

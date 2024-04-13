@@ -40,8 +40,6 @@ if __name__ == "__main__":
         expert_prompt, analysis_prompt = get_domain_activities(expert_role, task)
         llm.setPrompt(expert_role, analysis_prompt)
         row_activities = llm.ask()
-        # print("row_activities:\n\t"+ row_activities)
-        # print()
         extract_activities(row_activities, activities_list)
         department_activities.append(row_activities)
 
@@ -63,9 +61,14 @@ if __name__ == "__main__":
     
     #get the row emergency process made by decision maker
     print("activities: \n"+ ",\t".join(activities_list))
+    print()
     
     decision_maker, emergency_process_prompt = get_row_emergency_process(example, activities_list)
     llm.setPrompt(decision_maker, emergency_process_prompt)
+    row_process = llm.ask()
+    
+    print("row_process: \n"+ row_process)
+    print()
     
     
 
