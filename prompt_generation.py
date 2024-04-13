@@ -91,6 +91,32 @@ def get_row_emergency_process(example, activities):
     return decission_maker, prompt_get_row_emergency_process
 
 
+#get every single department's vote for the row emergency process
+def get_department_votes(row_process, domain, domain_activities):
+    voter = f"You are a domain expert who process extensive knowledge and expertise in {domain}. \n"
+    
+    
+    prompt_get_votes = f"Here is an emergency management process: {row_process} \n" \
+        f"As a domain expert in {domain}, you have expertise knowledge in the field. In a previous session, you proposed some emergency activities: {domain_activities} \n" \
+        f"Next, you will judge the above process through the following two aspects: \n" \
+        f"1. Does process include all the activities you mentioned before? \n" \
+        f"2. Is the order of occurrence of activities in the process consistent with the actual situation? \n" \
+        f"Please respond only with: [YES or NO]."
+        
+        
+    return voter, prompt_get_votes
+
+
+#
+def get_revision_prompt():
+    pass
+
+
+
+
+
+
+ 
  
 '''
 task:

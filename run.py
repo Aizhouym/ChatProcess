@@ -34,6 +34,7 @@ if __name__ == "__main__":
     #get different domains activities and extract activities
     department_activities = []
     activities_list = []
+    department_activities_dict = {}
     
     for i in range(len(specific_domains)):
         expert_role = specific_domains[i]
@@ -70,7 +71,23 @@ if __name__ == "__main__":
     print("row_process: \n"+ row_process)
     print()
     
+    #start multi turn discussion 
+    vote_history = []
+    revision_history = []
+    row_process_history = []
     
+    revision_flag = True
+    max_turn = 2
+    turn_num = 0
+    
+    while turn_num < max_turn and revision_flag:
+        turn_num +=1
+        revision_flag = False
+        
+         # hold a meeting for all domain experts to vote and gather advice if they do not agree
+        for domain in specific_domains:
+            
+             voter, vote_prompt = get_department_votes(row_process, domain, )
 
     
     
