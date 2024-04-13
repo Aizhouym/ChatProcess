@@ -2,6 +2,7 @@ import argparse
 from system_llm import System_llm
 from prompt_generation import *
 from utils import *
+import json
 
 
 if __name__ == "__main__":
@@ -34,7 +35,7 @@ if __name__ == "__main__":
     #get different domains activities and extract activities
     department_activities = []
     activities_list = []
-    department_activities_dict = {}
+    department_activities_map = {}
     
     for i in range(len(specific_domains)):
         expert_role = specific_domains[i]
@@ -42,10 +43,19 @@ if __name__ == "__main__":
         llm.setPrompt(expert_role, analysis_prompt)
         row_activities = llm.ask()
         extract_activities(row_activities, activities_list)
+        set_department_activities_map(row_activities, department_activities_map)
         department_activities.append(row_activities)
-
-    print("department_activities:\n" + ",\n".join(department_activities))
-
+    
+    #print the data
+    # print("department_activities:\n" + ",\n".join(department_activities))
+    # print()
+    
+    print("activities: \n"+ ",\t".join(activities_list))
+    print()
+    
+    print("department_activities_map: \n"+ json.dumps(department_activities_map))
+    print()
+    
     # test the expert and analysis prompt
     # for i in range(len(specific_domains)):
     #     expert = specific_domains[i]
@@ -61,9 +71,6 @@ if __name__ == "__main__":
     example = extract_process_example(file_path)
     
     #get the row emergency process made by decision maker
-    print("activities: \n"+ ",\t".join(activities_list))
-    print()
-    
     decision_maker, emergency_process_prompt = get_row_emergency_process(example, activities_list)
     llm.setPrompt(decision_maker, emergency_process_prompt)
     row_process = llm.ask()
@@ -86,8 +93,12 @@ if __name__ == "__main__":
         
          # hold a meeting for all domain experts to vote and gather advice if they do not agree
         for domain in specific_domains:
+            activities = department_activities_map[domain]
+            voter, vote_prompt = get_department_votes(row_process, domain, activities)
+            llm.setPrompt(voter, vote_prompt)
             
-             voter, vote_prompt = get_department_votes(row_process, domain, )
+            vote_result = llm.ask()
+            
 
     
     

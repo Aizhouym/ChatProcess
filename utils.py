@@ -56,7 +56,9 @@ def set_department_activities_map(data, data_dict):
     
     for i in range(2):
         new_activities.append(activities[i])
-        
+    
+    # print(new_activities)
+    
     data_dict[department] = new_activities
     
     return None
