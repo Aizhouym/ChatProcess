@@ -109,23 +109,36 @@ def get_department_votes(row_process, domain, domain_activities):
 
 #get expert advice through judgement
 def get_expert_advice(row_process, domain):
-    expert = f"You're " \
-        f"Your role is "\
+    advice_format = ""
+    
+    expert = f"You're a domain expert who process extensive knowledge and expertise in {domain}" \
+        f"Your role is to check whether the emergency management process given are reasonable based on your experience. \n"
     
     
-    expert_advice_prompt = f""
+    expert_advice_prompt = f"Please read the following requirements one by one. \n" \
+        f"1. Read this emergency management process carefully {row_process} \n" \
+        f"2. Think deeply about whether the relationship between the different activities in the above process is correct. \n" \
+        f"3. If there is an exclusive or concurrent relationship between activities, paired gateways should be added to the process appropriately. \n" \
+        f"4. Once again, please think carefully and provide suggestions for modifications. \n" \
+        f"Think step by step to complete the above requirements \n"
 
 
     return expert, expert_advice_prompt
     
     
-#
-def get_revision_prompt():
-    pass
+#gget multi turn discussion revision prompt
+def get_revision_prompt(row_process, revision_advice):
+    reviser = f"You're a specialized process management expert with in-depth knowledge of BPMN (Business Process Model and Notation), including the characteristics of exclusive gateways and parallel gateways."\
+        f"Your role is to generate activity processes based on your professional expertise in process management."
 
 
+    for domain, advice in revision_advice.items():
+        revision_prompt += f"Here is advice from a domain expert specialized in {domain}: {advice}.\n"
+    revision_prompt += f"Please carefully understand the suggestions given by the above experts and make modifications based on the original process: {row_process}. \n"
+    revision_prompt += f"Note that the output format should remain the same as before. \n"
+    
 
-
+    return reviser, revision_prompt
 
 
  

@@ -109,7 +109,7 @@ if __name__ == "__main__":
 
                 llm.setPrompt(expert, advice_prompt)
                 advice = llm.ask()
-                domain_opinions[domain] = advice
+                revision_advice[domain] = advice
             
             if revision_flag:
                 pass
@@ -120,6 +120,7 @@ if __name__ == "__main__":
     print("vote_history: \n")
     print(vote_history)   
 
+    
     
     
     
