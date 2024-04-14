@@ -3,6 +3,7 @@ from system_llm import System_llm
 from prompt_generation import *
 from utils import *
 import json
+from datetime import datetime
 
 
 if __name__ == "__main__":
@@ -81,11 +82,13 @@ if __name__ == "__main__":
     #start multi turn discussion 
     vote_history = []
     revision_history = []
-    row_process_history = []
+    process_history = []
     
     revision_flag = True
     max_turn = 2
     turn_num = 0
+    
+    process_history = [row_process]
     
     while turn_num < max_turn and revision_flag:
         domain_opinions = {}
@@ -106,24 +109,58 @@ if __name__ == "__main__":
             if vote_result == "no":
                 revision_flag = True
                 expert, advice_prompt = get_expert_advice(row_process, domain)
-
                 llm.setPrompt(expert, advice_prompt)
+                
                 advice = llm.ask()
                 revision_advice[domain] = advice
-            
-            if revision_flag:
-                pass
+
+                print("domain:"+ domain)
+                print(advice)
                 
-                                
+                
+        if revision_flag:
+            reviser, revision_prompt = get_revision_prompt(row_process, revision_advice)
+            llm.setPrompt(reviser, revision_prompt)
+            
+            row_process = llm.ask()
+            process_history.append(row_process)
+            revision_history.append(revision_advice)
+            print("row_process:\n" + row_process)
+            
+            
         vote_history.append(domain_opinions) 
         
     print("vote_history: \n")
     print(vote_history)   
+    print()
+    
+    # print("revision history: \n")
+    # print(revision_history)
+    # print()
+    
+    # print("process_history: \n")
+    # print(process_history)
+    # print()
 
+    # make a record 
+    timestamp = datetime.now().isoformat()
     
+    data_info = {
+        "time": timestamp,
+        'task': args.task,
+        'specific_domians': specific_domains,
+        'activities': activities_list,
+        'vote_history': vote_history,
+        'revision_history': revision_history,
+        'process_history': process_history,
+    }
+
+   
+    storage_path = "output_file.json"
     
-    
-    
-    
-    
-    
+    with open(storage_path, 'a') as file:
+        # write the timestamp and record 
+        json.dump(data_info, file)
+        
+    print("finish record")
+

@@ -109,7 +109,7 @@ def get_department_votes(row_process, domain, domain_activities):
 
 #get expert advice through judgement
 def get_expert_advice(row_process, domain):
-    advice_format = ""
+    advice_format = "Advice:[expert advice]"
     
     expert = f"You're a domain expert who process extensive knowledge and expertise in {domain}" \
         f"Your role is to check whether the emergency management process given are reasonable based on your experience. \n"
@@ -120,6 +120,7 @@ def get_expert_advice(row_process, domain):
         f"2. Think deeply about whether the relationship between the different activities in the above process is correct. \n" \
         f"3. If there is an exclusive or concurrent relationship between activities, paired gateways should be added to the process appropriately. \n" \
         f"4. Once again, please think carefully and provide suggestions for modifications. \n" \
+        f"5. Your response should be a single, cohesive piece of text. Avoid using numbered lists or bullet points in your response. Follow the format: {advice_format}" \
         f"Think step by step to complete the above requirements \n"
 
 
@@ -131,11 +132,13 @@ def get_revision_prompt(row_process, revision_advice):
     reviser = f"You're a specialized process management expert with in-depth knowledge of BPMN (Business Process Model and Notation), including the characteristics of exclusive gateways and parallel gateways."\
         f"Your role is to generate activity processes based on your professional expertise in process management."
 
-
+    
+    revision_prompt = f"Here is the orginial emergency management process: {row_process}\n\n"
+    
     for domain, advice in revision_advice.items():
         revision_prompt += f"Here is advice from a domain expert specialized in {domain}: {advice}.\n"
-    revision_prompt += f"Please carefully understand the suggestions given by the above experts and make modifications based on the original process: {row_process}. \n"
-    revision_prompt += f"Note that the output format should remain the same as before. \n"
+    revision_prompt += f"Please carefully understand the suggestions given by the above experts and make modifications based on the original emergency management process \n"
+    revision_prompt += f"Note that the output process format should remain the same as before. \n"
     
 
     return reviser, revision_prompt
