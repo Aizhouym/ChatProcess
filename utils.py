@@ -78,3 +78,36 @@ def get_lower_vote_answer(response):
         
     return vote
 
+
+#get the excution log
+def show_excutions(json_path):
+    with open(json_path, 'r') as file:
+            data = json.load(file)
+    
+    # data = json.dumps(json_data)
+    
+    for key, content in data.items():
+        # print("key: \n\t" + key)
+        print(key + ":\t" , end="")
+        
+        if key == "revision_history":
+            for revision_advisc in content:
+                for domain, advice in revision_advisc.items():
+                        print(domain)
+                        print(advice)
+                        print()
+        elif key == "process_history":
+            for process in content:
+                print(process)
+                print()
+        else:
+            # print("Value:")
+            print(content)
+            print()
+        
+    return None
+
+
+json_file = "output_file.json"
+
+show_excutions(json_file)
